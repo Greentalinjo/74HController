@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "logic-macropad")(type "KiCad")(uri "${KIPRJMOD}/logic-macropad.pretty")(options "")(descr "Project footprints for the logic macropad"))
+)

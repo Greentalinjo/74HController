@@ -1,0 +1,704 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "2c8f9302-7c42-5d4f-9fd4-6b6a2b9ef1af")
+	(paper "A3")
+	(title_block
+		(title "Logic Macropad - Root / block diagram")
+		(date "2026-09-04")
+		(rev "A")
+		(comment 1 "8-key macropad, 74HC logic only, no MCU/FPGA")
+		(comment 2 "Selectable TTL UART or RS-232 output")
+	)
+	(lib_symbols
+		(symbol "logic-macropad:PWR_FLAG"
+			(power global)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "#FLG"
+				(at 0 1.905 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "PWR_FLAG"
+				(at 0 3.81 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Special symbol for telling ERC where power comes from"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "flag power"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "PWR_FLAG_0_0"
+				(pin power_out line
+					(at 0 0 90)
+					(length 0)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "PWR_FLAG_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 1.27) (xy -1.016 1.905) (xy 0 2.54) (xy 1.016 1.905) (xy 0 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(text "8-key keypad that emits a real 8-N-1 serial frame per key event,\nbuilt only from 74HC glue logic and a diode ROM.  No MCU, no FPGA,\nno firmware, no programmable part of any kind.\n \nPRINCIPLE OF OPERATION\n  A 74HC161 sweeps a 3-bit address across the 8 keys at the bit clock,\n  so every key is sampled 1/8 of the baud rate (1200 Hz at 9600 baud).\n  74HC151 #1 reads the LIVE debounced key at that address; 74HC151 #2\n  reads the STORED state of the same address out of a 74HC259 latch.\n  A 74HC86 XORs them.  A difference sets the BUSY flip-flop on the\n  FALLING clock edge, which freezes the scan counter through its\n  synchronous count-enables (CEP/CET) - the clock itself is never\n  gated, so no runt pulses are possible.\n  While BUSY, the frozen address selects one row of a 74HC238 +\n  diode ROM, which presents 7 ASCII bits to a pair of 74HC165s.\n  The shift registers emit start / b0..b6 / make-break / stop over\n  the next 10 bit times.  A second 74HC161 + 74HC138 count the frame,\n  write the new key state into the 74HC259 at state 10, and release\n  BUSY one bit later.  Scanning resumes; N-key rollover falls out for\n  free because each pending change is serviced on a later sweep.\n \nOUTPUT       JP4 selects 3.3V TTL UART or RS-232 (MAX3232 -> RJ45).\nBAUD         JP2 taps the 74HC4060 divider; see sheet 2 for the table.\nASCII MAP    Set by which diodes are fitted; see sheet 6."
+		(exclude_from_sim no)
+		(at 20 30 0)
+		(effects
+			(font
+				(size 1.9 1.9)
+			)
+			(justify left top)
+		)
+		(uuid "461becea-3660-5c53-b483-50e60958188f")
+	)
+	(text "PWR_FLAGs: tell ERC that +3V3 / GND are driven."
+		(exclude_from_sim no)
+		(at 20 264.35 0)
+		(effects
+			(font
+				(size 1.9 1.9)
+			)
+			(justify left top)
+		)
+		(uuid "8b90037d-453f-55a0-bd4b-d2f1c02cce24")
+	)
+	(text "DISCRETE LOGIC SERIAL MACROPAD"
+		(exclude_from_sim no)
+		(at 20 18 0)
+		(effects
+			(font
+				(size 3.5 3.5)
+				(bold yes)
+			)
+			(justify left top)
+		)
+		(uuid "9e480952-9266-5bf5-9531-9e9bb73bea7b")
+	)
+	(wire
+		(pts
+			(xy 39.37 250.19) (xy 39.37 254)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "090165f3-852d-5373-912e-db66c2b8164b")
+	)
+	(wire
+		(pts
+			(xy 69.85 250.19) (xy 69.85 254)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4a090101-1585-5a20-b832-0dd7bb11e128")
+	)
+	(global_label "+3V3"
+		(shape bidirectional)
+		(at 39.37 254 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "403b07a9-c3fd-59b0-ba3c-339a2d60b383")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 39.37 254 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape bidirectional)
+		(at 69.85 254 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "899bd110-6d11-5b2d-a2ce-f18559a3e66f")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 69.85 254 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "logic-macropad:PWR_FLAG")
+		(at 69.85 250.19 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "0b30577f-e7c6-55ff-ae47-d9b950a9f54a")
+		(property "Reference" "#FLG02"
+			(at 69.85 246.38 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 74.93 251.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 69.85 250.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 69.85 250.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "ERC power source marker"
+			(at 69.85 250.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "64494c5e-a5ee-4b1d-b9e7-36e4366a3ab8")
+		)
+		(instances
+			(project "logic-macropad"
+				(path "/2c8f9302-7c42-5d4f-9fd4-6b6a2b9ef1af"
+					(reference "#FLG02")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "logic-macropad:PWR_FLAG")
+		(at 39.37 250.19 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "9dfd5e3d-5483-5326-8433-ed8ae196675d")
+		(property "Reference" "#FLG01"
+			(at 39.37 246.38 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 44.45 251.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 39.37 250.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 39.37 250.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "ERC power source marker"
+			(at 39.37 250.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "53ccad26-2f14-4d76-bede-af819341c8ee")
+		)
+		(instances
+			(project "logic-macropad"
+				(path "/2c8f9302-7c42-5d4f-9fd4-6b6a2b9ef1af"
+					(reference "#FLG01")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(sheet
+		(at 245.11 223.52)
+		(size 150 25.4)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "25e545d2-3791-5127-9e69-4a0ef00099ff")
+		(property "Sheetname" "Output Stage"
+			(at 245.11 222.82 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "07_output.kicad_sch"
+			(at 245.11 250.32 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "logic-macropad"
+				(path "/2c8f9302-7c42-5d4f-9fd4-6b6a2b9ef1af"
+					(page "8")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 245.11 58.42)
+		(size 150 25.4)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "2641e20b-cd4c-5553-9340-937e89b03e29")
+		(property "Sheetname" "Keys and Debounce"
+			(at 245.11 57.72 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "02_keys_debounce.kicad_sch"
+			(at 245.11 85.22 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "logic-macropad"
+				(path "/2c8f9302-7c42-5d4f-9fd4-6b6a2b9ef1af"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 245.11 157.48)
+		(size 150 25.4)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "31c88ebb-a729-56d6-a479-73426196e33d")
+		(property "Sheetname" "ASCII Diode ROM"
+			(at 245.11 156.78 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "05_ascii_rom.kicad_sch"
+			(at 245.11 184.28 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "logic-macropad"
+				(path "/2c8f9302-7c42-5d4f-9fd4-6b6a2b9ef1af"
+					(page "6")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 245.11 25.4)
+		(size 150 25.4)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "3caaf2cf-1ad1-5139-92a2-5c47310d2565")
+		(property "Sheetname" "Power, Clock, Reset"
+			(at 245.11 24.7 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "01_power_clock.kicad_sch"
+			(at 245.11 52.2 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "logic-macropad"
+				(path "/2c8f9302-7c42-5d4f-9fd4-6b6a2b9ef1af"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 245.11 190.5)
+		(size 150 25.4)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "607d3481-2b33-5f95-a8aa-c76c00854777")
+		(property "Sheetname" "UART Shift Register"
+			(at 245.11 189.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "06_uart_tx.kicad_sch"
+			(at 245.11 217.3 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "logic-macropad"
+				(path "/2c8f9302-7c42-5d4f-9fd4-6b6a2b9ef1af"
+					(page "7")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 245.11 91.44)
+		(size 150 25.4)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "6e286fda-bfad-5f5e-8ed9-5df2e6d67806")
+		(property "Sheetname" "Scanner and Memory"
+			(at 245.11 90.74 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "03_scanner.kicad_sch"
+			(at 245.11 118.24 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "logic-macropad"
+				(path "/2c8f9302-7c42-5d4f-9fd4-6b6a2b9ef1af"
+					(page "4")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 245.11 124.46)
+		(size 150 25.4)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "d2341cf3-bbd3-57a0-8e94-3d4d68accc33")
+		(property "Sheetname" "Transmit Sequencer"
+			(at 245.11 123.76 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "04_sequencer.kicad_sch"
+			(at 245.11 151.26 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "logic-macropad"
+				(path "/2c8f9302-7c42-5d4f-9fd4-6b6a2b9ef1af"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

@@ -1,0 +1,15 @@
+# KiCad writes LF on every platform; keep it that way so diffs stay clean
+*.kicad_pro   text eol=lf
+*.kicad_sch   text eol=lf
+*.kicad_pcb   text eol=lf
+*.kicad_sym   text eol=lf
+*.kicad_mod   text eol=lf
+*-lib-table   text eol=lf
+*.md          text eol=lf
+*.svg         text eol=lf
+.gitignore    text eol=lf
+.gitattributes text eol=lf
+
+*.3mf binary
+*.png binary
+*.pdf binary

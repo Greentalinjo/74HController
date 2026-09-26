@@ -1,0 +1,36 @@
+# KiCad: per-user and generated files
+*.kicad_prl
+*-backups/
+_autosave-*
+~*.lck
+*.lck
+fp-info-cache
+*.bak
+*-bak
+*.kicad_sch-bak
+*.kicad_pcb-bak
+\#auto_saved_files\#
+
+# fabrication exports - regenerate from the project instead
+production/
+gerbers/
+*.zip
+
+# OS and editor clutter
+.DS_Store
+Thumbs.db
+desktop.ini
+.history/
+.vscode/
+.idea/
+
+# never commit credentials
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+credentials*
+secrets*
