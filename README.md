@@ -24,7 +24,7 @@ sixteen logic chips from the 74HC family, the kind you would find in a 1980s
 computer, plus one RS-232 line driver. Change the character a button sends by
 moving a diode.
 
-| | |
+| At a glance | |
 |---|---|
 | Keys | 5-way navigation cluster + 3 Cherry MX switches |
 | Output | 8-N-1 serial, 115200 baud by default, as RS-232 on an RJ45 (Cisco console pinout) or 3.3 V TTL on a header |
